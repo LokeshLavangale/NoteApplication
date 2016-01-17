@@ -12,6 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * @author Lokesh Lavangale
@@ -20,20 +24,20 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "note")
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "user")
-public class Note implements Serializable{
-	
+@XmlType(propOrder = { "id", "title", "note", "creationTime", "lastModified" })
+@XmlRootElement(name = "note")
+public class Note implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	private long id;
 
 	private String title;
-	
+
 	private String note;
 
-	private String name;
-	
 	private Date creationTime;
-	
+
 	private Date lastModified;
 
 	/**
@@ -53,8 +57,10 @@ public class Note implements Serializable{
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
+	@XmlElement
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -67,8 +73,10 @@ public class Note implements Serializable{
 	}
 
 	/**
-	 * @param title the title to set
+	 * @param title
+	 *            the title to set
 	 */
+	@XmlElement
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -81,24 +89,12 @@ public class Note implements Serializable{
 	}
 
 	/**
-	 * @param note the note to set
+	 * @param note
+	 *            the note to set
 	 */
+	@XmlElement
 	public void setNote(String note) {
 		this.note = note;
-	}
-
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	/**
@@ -109,8 +105,10 @@ public class Note implements Serializable{
 	}
 
 	/**
-	 * @param creationTime the creationTime to set
+	 * @param creationTime
+	 *            the creationTime to set
 	 */
+	@XmlElement
 	public void setCreationTime(Date creationTime) {
 		this.creationTime = creationTime;
 	}
@@ -123,13 +121,17 @@ public class Note implements Serializable{
 	}
 
 	/**
-	 * @param lastModified the lastModified to set
+	 * @param lastModified
+	 *            the lastModified to set
 	 */
+	@XmlElement
 	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -139,13 +141,14 @@ public class Note implements Serializable{
 		result = prime * result + ((creationTime == null) ? 0 : creationTime.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((lastModified == null) ? 0 : lastModified.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -177,13 +180,6 @@ public class Note implements Serializable{
 		} else if (!lastModified.equals(other.lastModified)) {
 			return false;
 		}
-		if (name == null) {
-			if (other.name != null) {
-				return false;
-			}
-		} else if (!name.equals(other.name)) {
-			return false;
-		}
 		if (note == null) {
 			if (other.note != null) {
 				return false;
@@ -201,5 +197,4 @@ public class Note implements Serializable{
 		return true;
 	}
 
-	
 }

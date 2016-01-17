@@ -15,6 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * @author Lokesh Lavangale
@@ -23,13 +26,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "notes")
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "user")
-public class Notes implements Serializable{
-	
+@XmlRootElement(name = "notes")
+public class Notes implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
-	
 	private Long id;
-	
+
 	protected List<Note> note;
 
 	/**
@@ -49,8 +52,10 @@ public class Notes implements Serializable{
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
+	@XmlTransient
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -58,19 +63,23 @@ public class Notes implements Serializable{
 	/**
 	 * @return the note
 	 */
-	@OneToMany(targetEntity = Note.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(targetEntity = Note.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public List<Note> getNote() {
 		return note;
 	}
 
 	/**
-	 * @param note the note to set
+	 * @param note
+	 *            the note to set
 	 */
+	@XmlElement(name = "note")
 	public void setNote(List<Note> note) {
 		this.note = note;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -82,7 +91,9 @@ public class Notes implements Serializable{
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -114,5 +125,4 @@ public class Notes implements Serializable{
 		return true;
 	}
 
-	
 }

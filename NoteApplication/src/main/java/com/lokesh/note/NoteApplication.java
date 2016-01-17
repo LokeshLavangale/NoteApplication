@@ -3,19 +3,18 @@
  */
 package com.lokesh.note;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 
 import com.lokesh.note.controller.NoteController;
 import com.lokesh.note.model.Note;
 import com.lokesh.note.model.Notes;
 import com.lokesh.note.model.User;
-import com.lokesh.note.util.HibernateUtil;
 
 /**
  * @author Lokesh Lavangale
@@ -40,16 +39,16 @@ public class NoteApplication {
 
 		NoteApplication app = new NoteApplication();
 
-		app.addUser();
+		// app.addUser();
 		app.findAllUsers();
-		app.updateUser();
-		app.deleteUser();
-		
-		app.addNote();
-		app.findAllNotes();
-		app.upadateNote();
-		//app.deleteNote();
-		
+		// app.updateUser();
+		// app.deleteUser();
+
+		// app.addNote();
+		// app.findAllNotes();
+		// app.upadateNote();
+		// app.deleteNote();
+
 		System.out.println("Note successfully saved");
 	}
 
@@ -80,6 +79,18 @@ public class NoteApplication {
 		List<User> users = (List<User>) new NoteController().findAllUsers();
 		for (User user : users) {
 			System.out.println("User ID" + user.getId() + " :: " + user.getName());
+
+			StringWriter sw = new StringWriter();
+					
+			Marshaller jaxbMarshaller = JAXBContext.newInstance(User.class).createMarshaller();
+
+			// output pretty printed
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+			jaxbMarshaller.marshal(user, sw);
+			
+			System.out.println(sw.toString());
+			break;
 		}
 		return users;
 	}

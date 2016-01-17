@@ -18,6 +18,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 import com.lokesh.note.util.DesLib;
 
@@ -28,7 +32,9 @@ import com.lokesh.note.util.DesLib;
 @Entity
 @Table(name = "user")
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "user")
-public class User implements Serializable{
+@XmlType(propOrder = { "id", "name", "password", "notes", "creationTime", "lastModified" })
+@XmlRootElement(name = "user")
+public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,14 +42,16 @@ public class User implements Serializable{
 
 	private byte[] pwd;
 
+	private String password;
+
 	private String name;
-	
+
 	private Date creationTime;
-	
+
 	private Date lastModified;
-	
+
 	private Notes notes;
-	
+
 	/**
 	 * 
 	 */
@@ -61,8 +69,10 @@ public class User implements Serializable{
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
+	@XmlElement
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -71,18 +81,19 @@ public class User implements Serializable{
 	 * @return the pwd
 	 */
 	@Column(name = "password")
+	@XmlTransient
 	public byte[] getPwd() {
 		return pwd;
 	}
 
 	/**
-	 * @param pwd the pwd to set
+	 * @param pwd
+	 *            the pwd to set
 	 */
 	public void setPwd(byte[] pwd) {
 		this.pwd = pwd;
 	}
 
-	
 	@Transient
 	public String getPassword() {
 		String result = null;
@@ -95,6 +106,7 @@ public class User implements Serializable{
 	}
 
 	@Transient
+	@XmlElement
 	public void setPassword(String password) {
 		try {
 			this.pwd = DesLib.encrypt(password);
@@ -102,7 +114,7 @@ public class User implements Serializable{
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * @return the name
 	 */
@@ -111,8 +123,10 @@ public class User implements Serializable{
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
+	@XmlElement
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -125,8 +139,10 @@ public class User implements Serializable{
 	}
 
 	/**
-	 * @param creationTime the creationTime to set
+	 * @param creationTime
+	 *            the creationTime to set
 	 */
+	@XmlElement
 	public void setCreationTime(Date creationTime) {
 		this.creationTime = creationTime;
 	}
@@ -139,8 +155,10 @@ public class User implements Serializable{
 	}
 
 	/**
-	 * @param lastModified the lastModified to set
+	 * @param lastModified
+	 *            the lastModified to set
 	 */
+	@XmlElement
 	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
 	}
@@ -154,13 +172,17 @@ public class User implements Serializable{
 	}
 
 	/**
-	 * @param notes the notes to set
+	 * @param notes
+	 *            the notes to set
 	 */
+	@XmlElement
 	public void setNotes(Notes notes) {
 		this.notes = notes;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -176,7 +198,9 @@ public class User implements Serializable{
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -228,5 +252,4 @@ public class User implements Serializable{
 		return true;
 	}
 
-	
 }

@@ -120,6 +120,15 @@ public class NoteController implements NoteControllerInterface {
 		}
 		return result;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.lokesh.note.controller.NoteControllerInterface#deleteUser(long)
+	 */
+	@Override
+	public boolean deleteUser(long userId) throws Exception {
+		return  deleteUser(findUserById(userId));
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -312,6 +321,16 @@ public class NoteController implements NoteControllerInterface {
 		}
 
 		return notes;
+	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.lokesh.note.controller.NoteControllerInterface#deleteNote(long)
+	 */
+	@Override
+	public boolean deleteNote(long id) throws Exception {
+		return deleteNote(findNoteById(id));
 	}
 
 }

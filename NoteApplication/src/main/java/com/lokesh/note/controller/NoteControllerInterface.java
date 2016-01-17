@@ -19,6 +19,8 @@ public interface NoteControllerInterface {
 	public boolean updateUser(User user) throws Exception;
 
 	public boolean deleteUser(User user) throws Exception;
+	
+	public boolean deleteUser(long userId) throws Exception;
 
 	public User findUserById(long id) throws Exception;
 
@@ -29,6 +31,8 @@ public interface NoteControllerInterface {
 	public boolean updateNote(Note note) throws Exception;
 
 	public boolean deleteNote(Note note) throws Exception;
+	
+	public boolean deleteNote(long id) throws Exception;
 
 	public Note findNoteById(long id) throws Exception;
 

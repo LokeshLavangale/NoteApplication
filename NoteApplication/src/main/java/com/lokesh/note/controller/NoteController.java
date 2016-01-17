@@ -155,7 +155,7 @@ public class NoteController implements NoteControllerInterface {
 	 * @see com.lokesh.note.controller.NoteControllerInterface#findAllUsers()
 	 */
 	@Override
-	public Collection<User> findAllUsers() throws Exception {
+	public List<User> findAllUsers() throws Exception {
 		List<User> users = null;
 		if (session != null) {
 			if (!session.isOpen()) {
@@ -295,7 +295,7 @@ public class NoteController implements NoteControllerInterface {
 	 * @see com.lokesh.note.controller.NoteControllerInterface#findAllNotes()
 	 */
 	@Override
-	public Collection<Note> findAllNotes() throws Exception {
+	public List<Note> findAllNotes() throws Exception {
 		List<Note> notes = null;
 		if (session != null) {
 			if (!session.isOpen()) {

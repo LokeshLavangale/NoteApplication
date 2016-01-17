@@ -3,7 +3,7 @@
  */
 package com.lokesh.note.controller;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.lokesh.note.model.Note;
 import com.lokesh.note.model.User;
@@ -22,7 +22,7 @@ public interface NoteControllerInterface {
 
 	public User findUserById(long id) throws Exception;
 
-	public Collection<User> findAllUsers() throws Exception;
+	public List<User> findAllUsers() throws Exception;
 
 	public boolean createNote(Note note) throws Exception;
 
@@ -32,5 +32,5 @@ public interface NoteControllerInterface {
 
 	public Note findNoteById(long id) throws Exception;
 
-	public Collection<Note> findAllNotes() throws Exception;
+	public List<Note> findAllNotes() throws Exception;
 }

@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "notes")
-@SequenceGenerator(name = "SEQUENCE", sequenceName = "user")
+@SequenceGenerator(name = "SEQUENCE", sequenceName = "notes")
 @XmlRootElement(name = "notes")
 public class Notes implements Serializable {
 

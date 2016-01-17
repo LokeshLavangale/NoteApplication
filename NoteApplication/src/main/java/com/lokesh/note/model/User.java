@@ -24,6 +24,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
+import org.hibernate.validator.constraints.Email;
+
 import com.lokesh.note.util.DesLib;
 
 /**
@@ -33,7 +35,7 @@ import com.lokesh.note.util.DesLib;
 @Entity
 @Table(name = "user")
 @SequenceGenerator(name = "SEQUENCE", sequenceName = "user")
-@XmlType(propOrder = { "id", "name", "password", "notes", "creationTime", "lastModified" })
+@XmlType(propOrder = { "id", "email", "password", "notes", "creationTime", "lastModified" })
 @XmlRootElement(name = "user")
 public class User implements Serializable {
 
@@ -45,7 +47,7 @@ public class User implements Serializable {
 
 	private String password;
 
-	private String name;
+	private String email;
 
 	private Date creationTime;
 
@@ -122,8 +124,9 @@ public class User implements Serializable {
 	 * @return the name
 	 */
 	@Column(unique = true, nullable = false)
-	public String getName() {
-		return name;
+	@Email
+	public String getEmail() {
+		return email;
 	}
 
 	/**
@@ -131,8 +134,8 @@ public class User implements Serializable {
 	 *            the name to set
 	 */
 	@XmlElement
-	public void setName(String name) {
-		this.name = name;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/**
@@ -196,7 +199,7 @@ public class User implements Serializable {
 		result = prime * result + ((creationTime == null) ? 0 : creationTime.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((lastModified == null) ? 0 : lastModified.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((notes == null) ? 0 : notes.hashCode());
 		result = prime * result + Arrays.hashCode(pwd);
 		return result;
@@ -236,11 +239,11 @@ public class User implements Serializable {
 		} else if (!lastModified.equals(other.lastModified)) {
 			return false;
 		}
-		if (name == null) {
-			if (other.name != null) {
+		if (email == null) {
+			if (other.email != null) {
 				return false;
 			}
-		} else if (!name.equals(other.name)) {
+		} else if (!email.equals(other.email)) {
 			return false;
 		}
 		if (notes == null) {

@@ -10,16 +10,17 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 
+import com.lokesh.note.controller.NoteController;
 import com.lokesh.note.model.Note;
 import com.lokesh.note.model.Notes;
 import com.lokesh.note.model.User;
+import com.lokesh.note.util.HibernateUtil;
 
 /**
  * @author Lokesh Lavangale
  *
- * Class to Test functionality
+ *         Class to Test functionality
  */
 public class NoteApplication {
 
@@ -32,68 +33,104 @@ public class NoteApplication {
 
 	/**
 	 * @param args
+	 * @throws Exception
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		System.out.println("Note Application");
+
+		NoteApplication app = new NoteApplication();
+
+		app.addUser();
+		app.findAllUsers();
+		app.updateUser();
+		app.deleteUser();
 		
-		Configuration cfg=new Configuration();  
-	    cfg.configure("hibernate.cfg.xml");//populates the data of the configuration file  
-	      
-	    //creating seession factory object  
-	    SessionFactory factory=cfg.buildSessionFactory();  
-	      
-	    //creating session object  
-	    Session session=factory.openSession();  
-	      
-	    //creating transaction object  
-	    Transaction t=session.beginTransaction();  
-	    
-	    Note note = new Note();
-	    note.setTitle("Test");
-	    note.setNote("This is a test note");
-	    note.setCreationTime(new Date());
-	    note.setLastModified(new Date());
-	    
-	    Notes notes = new Notes();
-	    List<Note> note1 = new ArrayList<Note>();
-	    note1.add(note);
-	    notes.setNote(note1);
-	    
-	    User user = new User();
-	    user.setName("TestUser");
-	    user.setPassword("password");
-	    user.setNotes(notes);
-	    user.setCreationTime(new Date());
-	    user.setLastModified(new Date());
-	    
-	    
-	    session.persist(user);//persisting the object  
-	      
-	    t.commit();//transaction is commited  
-	    session.close();  
-	      
-	    System.out.println("Note successfully saved"); 
+		app.addNote();
+		app.findAllNotes();
+		app.upadateNote();
+		//app.deleteNote();
+		
+		System.out.println("Note successfully saved");
 	}
 
-	
-	private static final SessionFactory sessionFactory = buildSessionFactory();
+	private void addUser() throws Exception {
+		Note note = new Note();
+		note.setTitle("Test");
+		note.setNote("This is a test note");
+		note.setCreationTime(new Date());
+		note.setLastModified(new Date());
 
-	private static SessionFactory buildSessionFactory() {
-		try {
-			return new Configuration().configure().buildSessionFactory();
-			
-		} catch (Throwable ex) {
-			
-			throw new ExceptionInInitializerError(ex);
+		Notes notes = new Notes();
+		List<Note> note1 = new ArrayList<Note>();
+		note1.add(note);
+		notes.setNote(note1);
+
+		User user = new User();
+		user.setName("TestUser");
+		user.setPassword("password");
+		user.setNotes(notes);
+		user.setCreationTime(new Date());
+		user.setLastModified(new Date());
+
+		new NoteController().createUser(user);
+
+	}
+
+	private List<User> findAllUsers() throws Exception {
+		List<User> users = (List<User>) new NoteController().findAllUsers();
+		for (User user : users) {
+			System.out.println("User ID" + user.getId() + " :: " + user.getName());
+		}
+		return users;
+	}
+
+	private void updateUser() throws Exception {
+		List<User> users = findAllUsers();
+		for (User user : users) {
+			user.setName(user.getName() + 1);
+			new NoteController().updateUser(user);
 		}
 	}
 
-	public static SessionFactory getSessionFactory() {
-		return sessionFactory;
+	private void deleteUser() throws Exception {
+		List<User> users = findAllUsers();
+		for (User user : users) {
+			new NoteController().deleteUser(user);
+			break;
+		}
 	}
 
-	public static void shutdown() {
-		// Close caches and connection pools
-		getSessionFactory().close();
+	private void addNote() throws Exception {
+		Note note = new Note();
+		note.setTitle("Test");
+		note.setNote("This is a test note");
+		note.setCreationTime(new Date());
+		note.setLastModified(new Date());
+
+		new NoteController().createNote(note);
+	}
+
+	private List<Note> findAllNotes() throws Exception {
+		List<Note> notes = (List<Note>) new NoteController().findAllNotes();
+		for (Note note : notes) {
+			System.out.println(" Note : " + note.getId() + " :: " + note.getTitle());
+		}
+		return notes;
+	}
+
+	private void upadateNote() throws Exception {
+		List<Note> notes = findAllNotes();
+		for (Note note : notes) {
+			note.setTitle(note.getTitle() + "1213");
+			new NoteController().updateNote(note);
+		}
+	}
+
+	private void deleteNote() throws Exception {
+		List<Note> notes = findAllNotes();
+		for (Note note : notes) {
+			new NoteController().deleteNote(note);
+			break;
+		}
 	}
 }

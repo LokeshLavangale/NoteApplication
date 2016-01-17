@@ -75,7 +75,7 @@ public class NoteService {
 
 	@POST
 	@Consumes("application/xml")
-	@Produces("application/xml")
+	@Produces("text/plain")
 	@Path("/users")
 	public Response addUser(InputStream is) throws JAXBException {
 		boolean result = false;
@@ -88,9 +88,51 @@ public class NoteService {
 		return Response.status(200).entity(Boolean.toString(result)).build();
 	}
 
+	@PUT
+	@Consumes("application/xml")
+	@Produces("text/plain")
+	@Path("/users/{id}")
+	public Response updateUser(InputStream is) throws JAXBException {
+		boolean result = false;
+		User user = (User) JAXBContext.newInstance(User.class).createUnmarshaller().unmarshal(is);
+		Date date = new Date();
+		user.setLastModified(date);
+		if (user.getNotes() != null) {
+			if (user.getNotes().getNote() != null) {
+				for (Note note : user.getNotes().getNote()) {
+					note.setLastModified(date);
+				}
+			}
+		}
+		try {
+			result = new NoteController().updateUser(user);
+		} catch (Exception e) {
+			return Response.status(500).entity(e.getMessage()).build();
+		}
+		return Response.status(200).entity(Boolean.toString(result)).build();
+	}
+
+	@PUT
+	@Consumes("application/xml")
+	@Produces("text/plain")
+	@Path("/users/{id}/notes/{note_id}")
+	public Response updateNote(InputStream is) throws JAXBException {
+		boolean result = false;
+		Note note = (Note) JAXBContext.newInstance(Note.class).createUnmarshaller().unmarshal(is);
+		Date date = new Date();
+		note.setLastModified(date);
+
+		try {
+			result = new NoteController().updateNote(note);
+		} catch (Exception e) {
+			return Response.status(500).entity(e.getMessage()).build();
+		}
+		return Response.status(200).entity(Boolean.toString(result)).build();
+	}
+
 	@POST
 	@Consumes("application/xml")
-	@Produces("application/xml")
+	@Produces("text/plain")
 	@Path("/users/{id}/notes")
 	public Response addNote(@PathParam("id") String id, InputStream is) throws JAXBException {
 		boolean result = false;

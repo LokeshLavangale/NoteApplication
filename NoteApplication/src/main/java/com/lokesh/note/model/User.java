@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -95,6 +96,8 @@ public class User implements Serializable {
 	}
 
 	@Transient
+	@Column(nullable = false)
+	@Size(min = 8)
 	public String getPassword() {
 		String result = null;
 		try {
@@ -118,6 +121,7 @@ public class User implements Serializable {
 	/**
 	 * @return the name
 	 */
+	@Column(unique = true, nullable = false)
 	public String getName() {
 		return name;
 	}

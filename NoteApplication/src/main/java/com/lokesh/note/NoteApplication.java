@@ -15,6 +15,7 @@ import com.lokesh.note.controller.NoteController;
 import com.lokesh.note.model.Note;
 import com.lokesh.note.model.Notes;
 import com.lokesh.note.model.User;
+import com.lokesh.note.model.Users;
 
 /**
  * @author Lokesh Lavangale
@@ -39,10 +40,15 @@ public class NoteApplication {
 
 		NoteApplication app = new NoteApplication();
 
-		// app.addUser();
-		app.findAllUsers();
-		// app.updateUser();
-		// app.deleteUser();
+		 app.addUser();
+		 app.addUser();
+		 app.addUser();
+		 app.addUser();
+		 app.addUser();
+		 app.addUser();
+	//	 app.findAllUsers();
+		//   app.updateUser();
+		//app.deleteUser();
 
 		// app.addNote();
 		// app.findAllNotes();
@@ -76,11 +82,23 @@ public class NoteApplication {
 	}
 
 	private List<User> findAllUsers() throws Exception {
-		List<User> users = (List<User>) new NoteController().findAllUsers();
+		List<User> users =  new NoteController().findAllUsers();
+		
+		Users parentUsers = new Users();
+		parentUsers.setUsers(users);
+		Marshaller jaxbMarshaller = JAXBContext.newInstance(Users.class).createMarshaller();
+
+		// output pretty printed
+		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		StringWriter sw = new StringWriter();
+		jaxbMarshaller.marshal(parentUsers, sw);
+		
+		System.out.println(sw.toString());
+		
 		for (User user : users) {
 			System.out.println("User ID" + user.getId() + " :: " + user.getName());
 
-			StringWriter sw = new StringWriter();
+/*			StringWriter sw = new StringWriter();
 					
 			Marshaller jaxbMarshaller = JAXBContext.newInstance(User.class).createMarshaller();
 
@@ -90,7 +108,7 @@ public class NoteApplication {
 			jaxbMarshaller.marshal(user, sw);
 			
 			System.out.println(sw.toString());
-			break;
+			break;*/
 		}
 		return users;
 	}
@@ -99,6 +117,7 @@ public class NoteApplication {
 		List<User> users = findAllUsers();
 		for (User user : users) {
 			user.setName(user.getName() + 1);
+			user.getNotes().getNote().remove(0);
 			new NoteController().updateUser(user);
 		}
 	}
@@ -107,7 +126,7 @@ public class NoteApplication {
 		List<User> users = findAllUsers();
 		for (User user : users) {
 			new NoteController().deleteUser(user);
-			break;
+			//break;
 		}
 	}
 

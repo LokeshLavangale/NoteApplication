@@ -85,7 +85,7 @@ public class NoteController implements NoteControllerInterface {
 				Transaction t = session.beginTransaction();
 				Date date = new Date();
 				user.setLastModified(date);
-				session.saveOrUpdate(user);
+				session.update(user);
 				t.commit();
 				session.close();
 				result = true;
@@ -126,14 +126,15 @@ public class NoteController implements NoteControllerInterface {
 		}
 		return result;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see com.lokesh.note.controller.NoteControllerInterface#deleteUser(long)
 	 */
 	@Override
 	public boolean deleteUser(long userId) throws Exception {
-		return  deleteUser(findUserById(userId));
+		return deleteUser(findUserById(userId));
 	}
 
 	/*
@@ -239,7 +240,7 @@ public class NoteController implements NoteControllerInterface {
 				Transaction t = session.beginTransaction();
 				Date date = new Date();
 				note.setLastModified(date);
-				session.saveOrUpdate(note);
+				session.update(note);
 				t.commit();
 				session.close();
 				result = true;
@@ -334,9 +335,9 @@ public class NoteController implements NoteControllerInterface {
 		return notes;
 	}
 
-
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see com.lokesh.note.controller.NoteControllerInterface#deleteNote(long)
 	 */
 	@Override

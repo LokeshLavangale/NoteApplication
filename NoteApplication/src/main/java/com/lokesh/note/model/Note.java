@@ -6,12 +6,14 @@ package com.lokesh.note.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -68,6 +70,7 @@ public class Note implements Serializable {
 	/**
 	 * @return the title
 	 */
+	@Column(nullable = false, length = 50)
 	public String getTitle() {
 		return title;
 	}
@@ -84,6 +87,8 @@ public class Note implements Serializable {
 	/**
 	 * @return the note
 	 */
+	@Column(length = 1000)
+	@Size(max = 1000)
 	public String getNote() {
 		return note;
 	}

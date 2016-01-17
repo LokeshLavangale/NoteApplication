@@ -4,6 +4,7 @@
 package com.lokesh.note.controller;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -50,6 +51,9 @@ public class NoteController implements NoteControllerInterface {
 			}
 			try {
 				Transaction t = session.beginTransaction();
+				Date date = new Date();
+				user.setCreationTime(date);
+				user.setLastModified(date);
 				session.save(user);
 				t.commit();
 				session.close();
@@ -79,6 +83,8 @@ public class NoteController implements NoteControllerInterface {
 			}
 			try {
 				Transaction t = session.beginTransaction();
+				Date date = new Date();
+				user.setLastModified(date);
 				session.saveOrUpdate(user);
 				t.commit();
 				session.close();
@@ -199,6 +205,9 @@ public class NoteController implements NoteControllerInterface {
 			}
 			try {
 				Transaction t = session.beginTransaction();
+				Date date = new Date();
+				note.setCreationTime(date);
+				note.setLastModified(date);
 				session.save(note);
 				t.commit();
 				session.close();
@@ -228,6 +237,8 @@ public class NoteController implements NoteControllerInterface {
 			}
 			try {
 				Transaction t = session.beginTransaction();
+				Date date = new Date();
+				note.setLastModified(date);
 				session.saveOrUpdate(note);
 				t.commit();
 				session.close();

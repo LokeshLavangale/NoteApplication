@@ -3,15 +3,22 @@
  */
 package com.lokesh.note.service;
 
+import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import com.lokesh.note.controller.NoteController;
@@ -28,6 +35,7 @@ import com.lokesh.note.model.Users;
 public class NoteService {
 
 	@GET
+	@Produces("application/xml")
 	@Path("/users")
 	public Response getAllUsers() {
 
@@ -47,6 +55,7 @@ public class NoteService {
 	}
 
 	@GET
+	@Produces("application/xml")
 	@Path("/users/{id}")
 	public Response getUser(@PathParam("id") String id) {
 
@@ -63,6 +72,51 @@ public class NoteService {
 		return Response.status(200).entity(sw.toString()).build();
 	}
 
+	@PUT
+	@Consumes("application/xml")
+	@Produces("application/xml")
+	@Path("/users")
+	public Response addUser(InputStream is) throws JAXBException {
+		boolean result = false;
+		User user = (User) JAXBContext.newInstance(User.class).createUnmarshaller().unmarshal(is);
+		try {
+			result = new NoteController().createUser(user);
+		} catch (Exception e) {
+			return Response.status(200).entity(e.getMessage()).build();
+		}
+		return Response.status(200).entity(Boolean.toString(result)).build();
+	}
+
+	@PUT
+	@Consumes("application/xml")
+	@Produces("application/xml")
+	@Path("/users/{id}/notes")
+	public Response addNote(@PathParam("id") String id, InputStream is) throws JAXBException {
+		boolean result = false;
+		Note note = (Note) JAXBContext.newInstance(Note.class).createUnmarshaller().unmarshal(is);
+		Date date = new Date();
+		note.setCreationTime(date);
+		note.setLastModified(date);
+		try {
+			NoteController controller = new NoteController();
+
+			User user = controller.findUserById(Long.parseLong(id));
+			if (user.getNotes() == null) {
+				Notes notes = new Notes();
+				user.setNotes(notes);
+			}
+			if (user.getNotes().getNote() == null) {
+				List<Note> note_1 = new ArrayList<Note>();
+				user.getNotes().setNote(note_1);
+			}
+			user.getNotes().getNote().add(note);
+			result = controller.updateUser(user);
+		} catch (Exception e) {
+			return Response.status(200).entity(e.getMessage()).build();
+		}
+		return Response.status(200).entity(Boolean.toString(result)).build();
+	}
+
 	@DELETE
 	@Path("/users/{id}")
 	public Response deleteUser(@PathParam("id") String id) {
@@ -76,6 +130,7 @@ public class NoteService {
 	}
 
 	@GET
+	@Produces("application/xml")
 	@Path("/users/{id}/notes")
 	public Response getUserNotes(@PathParam("id") String id) {
 		StringWriter sw = new StringWriter();
@@ -92,6 +147,7 @@ public class NoteService {
 	}
 
 	@GET
+	@Produces("application/xml")
 	@Path("/users/{id}/notes/{note_id}")
 	public Response getUserNote(@PathParam("id") String id, @PathParam("note_id") String note_id) {
 		StringWriter sw = new StringWriter();

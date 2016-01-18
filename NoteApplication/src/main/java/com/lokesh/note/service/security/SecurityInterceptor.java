@@ -78,34 +78,37 @@ public class SecurityInterceptor implements javax.ws.rs.container.ContainerReque
 			final String username = tokenizer.nextToken();
 			final String password = tokenizer.nextToken();
 
-			// Verifying Username and password
-			System.out.println(username);
-			System.out.println(password);
-
+			
 			String path = requestContext.getUriInfo().getPath();
 			String temp[] = path.replaceFirst("/", "").split("/");
-			String userId = "0";
+
+			// check for path is till notes
 			if (temp.length >= 3) {
-				userId = temp[2].trim();
-			}
-			// Verify user access
-			if (!isUserAllowed(username, password, userId)) {
-				requestContext.abortWith(ACCESS_DENIED);
-				return;
+				// check path contains notes
+				if (temp[3].equals("notes")) {
+					String userId = "0";
+					// get user id from path
+					userId = temp[2].trim();
+					// Verify user access
+					if (!isUserAllowedForNotes(username, password, userId)) {
+						requestContext.abortWith(ACCESS_DENIED);
+						return;
+					}
+				}
 			}
 		}
 	}
 
-	private boolean isUserAllowed(final String username, final String password, String userId) {
+	private boolean isUserAllowedForNotes(final String username, final String password, String userId) {
 		boolean isAllowed = false;
 
 		NoteController controller = new NoteController();
 		try {
 			User user = controller.findUserByUserName(username);
 			if (user != null && user.getEmail().equals(username)) {
-				if(user.getId() == Long.parseLong(userId)){
-					isAllowed = true;	
-				}	
+				if (user.getId() == Long.parseLong(userId)) {
+					isAllowed = true;
+				}
 			}
 		} catch (Exception e) {
 			return isAllowed;

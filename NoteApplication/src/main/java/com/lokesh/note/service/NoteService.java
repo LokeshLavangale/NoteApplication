@@ -95,7 +95,11 @@ public class NoteService {
 		} catch (Exception e) {
 			return Response.status(200).entity(e.getMessage()).build();
 		}
-		return Response.status(200).entity(Boolean.toString(result)).build();
+		if(result){
+			return Response.status(200).entity("User Added Sucessfully").build();
+		}else{
+			return Response.status(200).entity("Error occurred in User Addition").build();	
+		}
 	}
 
 	@DenyAll
@@ -120,7 +124,11 @@ public class NoteService {
 		} catch (Exception e) {
 			return Response.status(500).entity(e.getMessage()).build();
 		}
-		return Response.status(200).entity(Boolean.toString(result)).build();
+		if(result){
+			return Response.status(200).entity("User Updated Sucessfully").build();
+		}else{
+			return Response.status(200).entity("Error occurred in User Updation").build();	
+		}
 	}
 
 	@DenyAll
@@ -133,7 +141,11 @@ public class NoteService {
 		} catch (Exception e) {
 			return Response.status(200).entity(e.getMessage()).build();
 		}
-		return Response.status(200).entity(Boolean.toString(result)).build();
+		if(result){
+			return Response.status(200).entity("User Deleted Sucessfully").build();
+		}else{
+			return Response.status(200).entity("Error occurred in User Deletion").build();	
+		}
 	}
 
 	@PermitAll
@@ -152,7 +164,11 @@ public class NoteService {
 		} catch (Exception e) {
 			return Response.status(500).entity(e.getMessage()).build();
 		}
-		return Response.status(200).entity(Boolean.toString(result)).build();
+		if(result){
+			return Response.status(200).entity("Note Updated Sucessfully").build();
+		}else{
+			return Response.status(200).entity("Error occurred in Note Updation").build();	
+		}
 	}
 
 	@PermitAll
@@ -183,7 +199,11 @@ public class NoteService {
 		} catch (Exception e) {
 			return Response.status(200).entity(e.getMessage()).build();
 		}
-		return Response.status(200).entity(Boolean.toString(result)).build();
+		if(result){
+			return Response.status(200).entity("Note Added Sucessfully").build();
+		}else{
+			return Response.status(200).entity("Error occurred in Note Addition").build();	
+		}
 	}
 
 	@PermitAll
@@ -242,6 +262,10 @@ public class NoteService {
 		} catch (Exception e) {
 			return Response.status(200).entity(e.getMessage()).build();
 		}
-		return Response.status(200).entity(Boolean.toString(result)).build();
+		if(result){
+			return Response.status(200).entity("Note Deleted Sucessfully").build();
+		}else{
+			return Response.status(200).entity("Error occurred in Note Deletion").build();	
+		}
 	}
 }

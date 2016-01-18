@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.lokesh.note;
+package com.lokesh.note.service;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

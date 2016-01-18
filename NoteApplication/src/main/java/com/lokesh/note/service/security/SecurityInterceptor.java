@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2016
+ * Lokesh Lavangale All Rights Reserved 
+ * This is Demonstration Code only is provided AS IS IN basis without any support 
+ * 
+ * Use of this code is only for demonstration only and can be re-used with prior permission
+ * 
+ */
 package com.lokesh.note.service.security;
 
 import java.io.IOException;
@@ -78,7 +86,6 @@ public class SecurityInterceptor implements javax.ws.rs.container.ContainerReque
 			final String username = tokenizer.nextToken();
 			final String password = tokenizer.nextToken();
 
-			
 			String path = requestContext.getUriInfo().getPath();
 			String temp[] = path.replaceFirst("/", "").split("/");
 

@@ -41,11 +41,11 @@ public class NoteApplication {
 		NoteApplication app = new NoteApplication();
 
 		 app.addUser();
-		 app.addUser();
-		 app.addUser();
-		 app.addUser();
-		 app.addUser();
-		 app.addUser();
+		 //app.addUser();
+		// app.addUser();
+		 //app.addUser();
+		 //app.addUser();
+		 //app.addUser();
 	//	 app.findAllUsers();
 		//   app.updateUser();
 		//app.deleteUser();
@@ -71,7 +71,7 @@ public class NoteApplication {
 		notes.setNote(note1);
 
 		User user = new User();
-		user.setName("TestUser");
+		user.setEmail("TestUser1@test.com");
 		user.setPassword("password");
 		user.setNotes(notes);
 		user.setCreationTime(new Date());
@@ -96,7 +96,7 @@ public class NoteApplication {
 		System.out.println(sw.toString());
 		
 		for (User user : users) {
-			System.out.println("User ID" + user.getId() + " :: " + user.getName());
+			System.out.println("User ID" + user.getId() + " :: " + user.getEmail());
 
 /*			StringWriter sw = new StringWriter();
 					
@@ -116,7 +116,7 @@ public class NoteApplication {
 	private void updateUser() throws Exception {
 		List<User> users = findAllUsers();
 		for (User user : users) {
-			user.setName(user.getName() + 1);
+			user.setEmail(user.getEmail() + 1);
 			user.getNotes().getNote().remove(0);
 			new NoteController().updateUser(user);
 		}

@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2016
+ * Lokesh Lavangale All Rights Reserved 
+ * This is Demonstration Code only is provided AS IS IN basis without any support 
+ * 
+ * Use of this code is only for demonstration only and can be re-used with prior permission
+ * 
+ */
 package com.lokesh.note.util;
 
 import java.security.InvalidAlgorithmParameterException;
@@ -17,7 +25,9 @@ import javax.crypto.spec.PBEParameterSpec;
 import com.lokesh.note.exception.DesException;
 
 /**
- * DesLib.java Standard 3DES String encryption/decryption routine
+ * @author Lokesh Lavangale
+ * 
+ *         DesLib.java Standard 3DES String encryption/decryption routine
  */
 
 public class DesLib {

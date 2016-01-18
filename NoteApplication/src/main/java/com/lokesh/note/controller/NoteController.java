@@ -168,6 +168,35 @@ public class NoteController implements NoteControllerInterface {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see
+	 * com.lokesh.note.controller.NoteControllerInterface#findUserByUserName(
+	 * java.lang.String)
+	 */
+	@Override
+	public User findUserByUserName(String userName) throws Exception {
+		User user = null;
+		if (session != null) {
+			if (!session.isOpen()) {
+				openSession();
+			}
+			try {
+				Criteria crt = session.createCriteria(User.class);
+				crt.add(Restrictions.eq("email", userName));
+				user = (User) crt.uniqueResult();
+				session.close();
+			} catch (Exception e) {
+				throw e;
+			}
+		} else {
+			throw new Exception("Hibernate session does not exist");
+		}
+
+		return user;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.lokesh.note.controller.NoteControllerInterface#findAllUsers()
 	 */
 	@Override
@@ -344,5 +373,4 @@ public class NoteController implements NoteControllerInterface {
 	public boolean deleteNote(long id) throws Exception {
 		return deleteNote(findNoteById(id));
 	}
-
 }

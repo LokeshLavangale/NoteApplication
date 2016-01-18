@@ -23,6 +23,8 @@ public interface NoteControllerInterface {
 	public boolean deleteUser(long userId) throws Exception;
 
 	public User findUserById(long id) throws Exception;
+	
+	public User findUserByUserName(String userName) throws Exception;
 
 	public List<User> findAllUsers() throws Exception;
 

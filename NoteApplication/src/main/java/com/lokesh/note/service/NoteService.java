@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -29,12 +31,13 @@ import com.lokesh.note.model.User;
 import com.lokesh.note.model.Users;
 
 /**
- * @author Lokesh Lavnagale
+ * @author Lokesh Lavangale
  *
  */
 @Path("/service")
 public class NoteService {
 
+	@DenyAll
 	@GET
 	@Produces("application/xml")
 	@Path("/users")
@@ -55,6 +58,7 @@ public class NoteService {
 		return Response.status(200).entity(sw.toString()).build();
 	}
 
+	@DenyAll
 	@GET
 	@Produces("application/xml")
 	@Path("/users/{id}")
@@ -73,6 +77,7 @@ public class NoteService {
 		return Response.status(200).entity(sw.toString()).build();
 	}
 
+	@DenyAll
 	@POST
 	@Consumes("application/xml")
 	@Produces("text/plain")
@@ -88,6 +93,7 @@ public class NoteService {
 		return Response.status(200).entity(Boolean.toString(result)).build();
 	}
 
+	@DenyAll
 	@PUT
 	@Consumes("application/xml")
 	@Produces("text/plain")
@@ -112,6 +118,20 @@ public class NoteService {
 		return Response.status(200).entity(Boolean.toString(result)).build();
 	}
 
+	@DenyAll
+	@DELETE
+	@Path("/users/{id}")
+	public Response deleteUser(@PathParam("id") String id) {
+		boolean result = false;
+		try {
+			result = new NoteController().deleteUser(Long.parseLong(id));
+		} catch (Exception e) {
+			return Response.status(200).entity(e.getMessage()).build();
+		}
+		return Response.status(200).entity(Boolean.toString(result)).build();
+	}
+
+	@PermitAll
 	@PUT
 	@Consumes("application/xml")
 	@Produces("text/plain")
@@ -130,6 +150,7 @@ public class NoteService {
 		return Response.status(200).entity(Boolean.toString(result)).build();
 	}
 
+	@PermitAll
 	@POST
 	@Consumes("application/xml")
 	@Produces("text/plain")
@@ -160,18 +181,7 @@ public class NoteService {
 		return Response.status(200).entity(Boolean.toString(result)).build();
 	}
 
-	@DELETE
-	@Path("/users/{id}")
-	public Response deleteUser(@PathParam("id") String id) {
-		boolean result = false;
-		try {
-			result = new NoteController().deleteUser(Long.parseLong(id));
-		} catch (Exception e) {
-			return Response.status(200).entity(e.getMessage()).build();
-		}
-		return Response.status(200).entity(Boolean.toString(result)).build();
-	}
-
+	@PermitAll
 	@GET
 	@Produces("application/xml")
 	@Path("/users/{id}/notes")
@@ -189,6 +199,7 @@ public class NoteService {
 		return Response.status(200).entity(sw.toString()).build();
 	}
 
+	@PermitAll
 	@GET
 	@Produces("application/xml")
 	@Path("/users/{id}/notes/{note_id}")
@@ -206,6 +217,7 @@ public class NoteService {
 		return Response.status(200).entity(sw.toString()).build();
 	}
 
+	@PermitAll
 	@DELETE
 	@Path("/users/{id}/notes/{note_id}")
 	public Response deleteUserNote(@PathParam("id") String id, @PathParam("note_id") String note_id) {

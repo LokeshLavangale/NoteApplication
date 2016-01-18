@@ -2,15 +2,11 @@ package com.lokesh.note.service.security;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
@@ -106,9 +102,10 @@ public class SecurityInterceptor implements javax.ws.rs.container.ContainerReque
 		NoteController controller = new NoteController();
 		try {
 			User user = controller.findUserByUserName(username);
-
 			if (user != null && user.getEmail().equals(username)) {
-				isAllowed = true;
+				if(user.getId() == Long.parseLong(userId)){
+					isAllowed = true;	
+				}	
 			}
 		} catch (Exception e) {
 			return isAllowed;
@@ -116,5 +113,4 @@ public class SecurityInterceptor implements javax.ws.rs.container.ContainerReque
 
 		return isAllowed;
 	}
-
 }

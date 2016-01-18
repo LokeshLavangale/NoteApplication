@@ -112,7 +112,7 @@ public class SecurityInterceptor implements javax.ws.rs.container.ContainerReque
 		NoteController controller = new NoteController();
 		try {
 			User user = controller.findUserByUserName(username);
-			if (user != null && user.getEmail().equals(username)) {
+			if (user != null && user.getPassword().equals(password)) {
 				if (user.getId() == Long.parseLong(userId)) {
 					isAllowed = true;
 				}
